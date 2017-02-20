@@ -10,6 +10,7 @@ function displayTable(){
 
       function tabulate(data, columns) {
     		var table = d3.select("body").append('table')
+          .attr("id","table1")
           .attr("width", '100%')
           .attr("height", 500)
     		var thead = table.append('thead')
@@ -47,7 +48,7 @@ function displayTable(){
     });
   }
 //******************************************************************************
-
+ var b = true;
     svg.append("circle")
             .style("stroke", "gray")
             .style("fill", "white")
@@ -56,4 +57,10 @@ function displayTable(){
             .attr("cy", 50)
             .on("mouseover", function(){d3.select(this).style("fill", "aliceblue");})
             .on("mouseout", function(){d3.select(this).style("fill", "white");})
-            .on("click",	function(){displayTable();});
+            .on("click",	function(){
+              if(b == true){
+                displayTable();
+                b = false;}
+              else{document.getElementById('table1').remove();
+              b = true;}
+            });
