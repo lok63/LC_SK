@@ -1,0 +1,43 @@
+html, body{
+  margin:0;
+  height: 100%;
+}
+
+line{
+  stroke: red;
+}
+
+circle{
+  stroke:blue;
+  fill:none;
+}
+
+rect{
+  stroke: red;
+  fill:none;
+}
+
+ellipse{
+  stroke:green;
+  fill:none;
+}
+
+g.group0 path,
+g.group0 circle {
+  stroke: red;
+  fill: none;
+}
+
+/* table attributes */
+td, th {
+  padding:5px;
+  border: 1px black solid;
+
+}
+table{
+   border-collapse: collapse;
+   border :2px black solid;
+   overflow-y:scroll;
+   height:200px;
+   display:block;
+}
