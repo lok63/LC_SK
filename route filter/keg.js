@@ -2,6 +2,27 @@ var svg = d3.select("body").append("svg")
     .attr("height","50%")
     .attr("width","100%");
 
+
+
+
+
+//******************** Check value in data *************************************
+ //var sd = require('./data2.json');
+//var depot = "Depot";
+
+//
+// // iterate over each element in the array
+// for (var i = 0; i < data.length; i++){
+//   // look for the entry with a matching `code` value
+//   if (data[i].code == depot){
+//      // we found it
+//     // obj[i].name is the matched result
+//     console.log("Yes");
+//   }else{
+//     console.log("No");
+//   }
+// }
+
 //*************************Create table ****************************************
 //******************************************************************************
 
