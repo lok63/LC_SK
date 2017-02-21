@@ -8,29 +8,33 @@ var svg = d3.select("body").append("svg")
 
 //******************** Check value in data *************************************
 
-// iterate over each element in the array
-for (var i = 0; i < data.length; i++){
-  // look for the entry with a matching `code` value
-  if (data[i].code == depot){
-     // we found it
-    // obj[i].name is the matched result
-    console.log("Yes");
-  }else{
-    console.log("No");
-  }
+function findWords(ds){
+
+  var results = [];
+  var searchField = "destination";
+  var searchVal = "Gillingham Depot";
+  for (var i=0 ; i < ds.length ; i++){
+      if (ds[i][searchField] == searchVal) {
+          results.push(ds[i]);
+        }
+    }
+      console.log(results);
 }
+
 //************************* Read data  *****************************************
 //******************************************************************************
-var ds;
 
-d3.json("data2.json", function(error,data){
-  if (error){console.log(error);}
-  else{
-    console.log(data);
-    ds = data;
-  }
 
-});
+  d3.json("data2.json", function(error,data){
+    if (error){console.log(error);}
+    else{
+      console.log(data);
+      ds = data;
+    }
+      findWords(ds);
+  });
+
+
 
 //*************************Create table ****************************************
 //******************************************************************************
