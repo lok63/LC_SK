@@ -7,21 +7,30 @@ var svg = d3.select("body").append("svg")
 
 
 //******************** Check value in data *************************************
- //var sd = require('./data2.json');
-//var depot = "Depot";
 
-//
-// // iterate over each element in the array
-// for (var i = 0; i < data.length; i++){
-//   // look for the entry with a matching `code` value
-//   if (data[i].code == depot){
-//      // we found it
-//     // obj[i].name is the matched result
-//     console.log("Yes");
-//   }else{
-//     console.log("No");
-//   }
-// }
+// iterate over each element in the array
+for (var i = 0; i < data.length; i++){
+  // look for the entry with a matching `code` value
+  if (data[i].code == depot){
+     // we found it
+    // obj[i].name is the matched result
+    console.log("Yes");
+  }else{
+    console.log("No");
+  }
+}
+//************************* Read data  *****************************************
+//******************************************************************************
+var ds;
+
+d3.json("data2.json", function(error,data){
+  if (error){console.log(error);}
+  else{
+    console.log(data);
+    ds = data;
+  }
+
+});
 
 //*************************Create table ****************************************
 //******************************************************************************
@@ -69,13 +78,15 @@ function displayTable(){
     });
   }
 //******************************************************************************
+/*Circle*/
+
  var b = true;
     svg.append("circle")
             .style("stroke", "gray")
             .style("fill", "white")
             .attr("r", 40)
             .attr("cx", 50)
-            .attr("cy", 50)
+            .attr("cy", 150)
             .on("mouseover", function(){d3.select(this).style("fill", "aliceblue");})
             .on("mouseout", function(){d3.select(this).style("fill", "white");})
             .on("click",	function(){
@@ -85,3 +96,26 @@ function displayTable(){
               else{document.getElementById('table1').remove();
               b = true;}
             });
+
+//******************************************************************************
+/*Squares*/
+
+svg.append("rect")
+        .style("stroke","gray")
+        .style("fill","white")
+        .attr("x",200)
+        .attr("y",50)
+        .attr("width",70)
+        .attr("height",70)
+        .on("mouseover", function(){d3.select(this).style("fill", "aliceblue");})
+        .on("mouseout", function(){d3.select(this).style("fill", "white");});
+
+//******************************************************************************
+/*Line*/
+
+svg.append("line")
+        .attr("x1","50")
+        .attr("x2",200)
+        .attr("y1",150)
+        .attr("y2",85)
+        .attr("stroke-width","1")
