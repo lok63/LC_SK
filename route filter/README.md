@@ -9,5 +9,7 @@ First prototype will visualise the data that are filtered and display the new re
 - [ ] 1.4.1 Add functionality to the square to filter the routes and show only the routes with Depots
 - [ ] 1.4.2 Create a function that will create a new JSON file with rows without the depot
 - [ ] 1.4.3 Create an array with all the words that we want to filter out and change the function
+
+
 ##DONE
 - [X] 1.1 Attach another shape with arrow
