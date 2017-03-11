@@ -2,7 +2,6 @@ First prototype will visualise the data that are filtered and display the new re
 
 ##To DO
 
-- [ ] 1.3 Add functionality when press the first circle display the the second shape
 
 ##DOING
 
