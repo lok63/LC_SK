@@ -19,11 +19,14 @@ the external JSON file and we must call all our methods that require data here
 Unfortunately we cant store data to global variables and use them outside of this scope
 */
 
-d3.json("data2.json", function(error,data){
-  if (error){console.log(error);}
+d3.json("test.json", function(error,data){
+  if (error){console.log(console.log("Error with dataset"));}
   else{
+    if(data == null || data.lenght == 0 || data.length == 1){
+      console.log("Error with dataset");
+    }
     console.log(data);
-    ds = data;
+    ds =  checkUselessChars(data);
   }
   //call your function here
   circleData = ds;
@@ -33,8 +36,17 @@ d3.json("data2.json", function(error,data){
   createSquare(squareData);
 });
 
+//**************** Check first row for useless charachters *********************
+function checkUselessChars(data){
+  if (Object.keys(data[0]).length < 18){
+    data.splice(0,1);
+    //--> console.log(data);
+    return data;
+  }
+  return data;
+}
 
-//************************Filter data ******************************************
+//*********************** Filter data ******************************************
 //******************************************************************************
 function findWords(ds){
 

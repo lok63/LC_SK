@@ -49,6 +49,9 @@ public class RoutesFinder {
 
 		ListIterator<String> it = dataList.listIterator();
 
+//******************************************************************************
+//********************* Checks first row  *****************************
+
 		// Check if the first row is empty or contains useless characters.
 		String checkFirst = it.next();
 		if(checkFirst.length() < 5) {
@@ -66,7 +69,10 @@ public class RoutesFinder {
 			fastTokPrev.tokenize(previous, ',');
 			fastTokCurr.tokenize(current, ',');
 
-			if(!previous.equals("")) {
+//******************************************************************************
+//********************* add the data to our list *****************************
+
+			if(!previous.equals("")) { //checks if its not empty
 				// extracts timestamp, dds, event information from previous and current rows.
 				prevTimestampString = fastTokPrev.tokens[1];
 				currTimestampString = fastTokCurr.tokens[1];
@@ -89,6 +95,7 @@ public class RoutesFinder {
 				minutes = (gapTime / (60 * 1000)) % 60;
 				hours = (gapTime/(60 * 60 * 1000)) % 24;
 
+//********************* Extract the day  *****************************
 				// creates the Calendar object in order to extract the day from the date.
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(prevDate);
@@ -97,6 +104,7 @@ public class RoutesFinder {
 				currDay = cal.get(Calendar.DAY_OF_MONTH);
 			}
 
+//********************* Destination  *****************************
 			// If the train is starting from a "non-depot station" but it is arriving to
 			// a "depot station" removes the first row; otherwise labels the first row as "FIRST".
 			if((current.contains("START")) && (previous.equals(""))
@@ -137,6 +145,7 @@ public class RoutesFinder {
 				else {
 					it.previous();
 				}
+				//sh1.trigger(red)
 			}
 
 			// Removes Slate Green Depot rows when the previous read station is Slade Green.
