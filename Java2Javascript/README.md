@@ -1,6 +1,5 @@
 # Description
-This file will contain an index.html file that will visualise all modules of keg.java code into shapes. 
-
-The first example is updated. The first row on test.json contains only 2 attributes. The first method of of keg.java checks if there are any useless characters in the first row.  When you open the html file you can see the first circle. 
-This circle represents the methodi mentioned earlier. When u press update it will e marked as grey and when u press the circle you can see the row that have been removedand the details will be showed to the console. 
-
+The javascript file contains the tranlasted logic from Java to Javascript. Code is almost 90% complete and its functionable.
+## TODO
+- [ ]  Find a way to convert the date format to the apropriate format so Javascript would accept the date in its function
+- [ ]  Fix the bug that is mentioned on the first line of our code
