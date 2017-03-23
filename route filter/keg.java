@@ -147,7 +147,7 @@ public class RoutesFinder {
 				}
 				//sh1.trigger(red)
 			}
-//------------->
+
 			// Removes Slate Green Depot rows when the previous read station is Slade Green.
 			else if(fastTokCurr.tokens[3].equals("Slade Green") && current.contains("START")) {
 				String checkDepot = "";
@@ -498,7 +498,7 @@ public class RoutesFinder {
 				it.remove();
 
 			}
-//--> elseif 12
+
 			// when the dds changes, that indicates the initiation of a new route.
 			else if((!previous.equals("")) && (!fastTokPrev.tokens[15].equals(dds))
 					&& (event.equals("STOP"))) {
@@ -521,7 +521,6 @@ public class RoutesFinder {
 					it.set(previous+","+"LAST");
 				}
 				}
-//---> bug maybe? need to check if it has next first
 				it.next();
 				String nextCheck = it.next();
 				if(!nextCheck.contains("FIRST")) {

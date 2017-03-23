@@ -46,6 +46,8 @@ var tableBool = true;
 var prevTimestamp,currTimestamp,currDate,prevDate;
 var gapTime;
 var temp;
+var format = new simpleDateFormat();
+format.applyPattern("dd/MM/yyyy HH:mm:ss");
 
 
 function start() {
@@ -56,7 +58,7 @@ function start() {
   Unfortunately we cant store data to global variables and use them outside of this scope
   */
 
-  d3.json("data5.json", function(error,data){
+  d3.json("data/data5.json", function(error,data){
     if (error){console.log(console.log("Error with dataset"));}
     else{
       if(data == null || data.lenght == 0 || data.length == 1){
@@ -110,6 +112,7 @@ function start() {
         } catch(err){
           console.log(err);
         }
+        console.log(currDate);
 //---------> TODO: FIx the format so you can initialise the gapTime
          //console.log(currDate);
       }
