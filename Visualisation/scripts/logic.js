@@ -46,6 +46,8 @@ var tableBool = true;
 var prevTimestamp,currTimestamp,currDate,prevDate;
 var gapTime;
 var temp;
+var format = new simpleDateFormat();
+format.applyPattern("dd/MM/yyyy HH:mm:ss");
 
 
 function start() {
@@ -56,7 +58,7 @@ function start() {
   Unfortunately we cant store data to global variables and use them outside of this scope
   */
 
-  d3.json("data5.json", function(error,data){
+  d3.json("data/data5.json", function(error,data){
     if (error){console.log(console.log("Error with dataset"));}
     else{
       if(data == null || data.lenght == 0 || data.length == 1){
@@ -110,6 +112,7 @@ function start() {
         } catch(err){
           console.log(err);
         }
+        console.log(currDate);
 //---------> TODO: FIx the format so you can initialise the gapTime
          //console.log(currDate);
       }
@@ -117,7 +120,7 @@ function start() {
       //*********************** Destinations ********************************************
       // If the train is starting from a "non-depot station" but it is arriving to
       // a "depot station" removes the first row; otherwise labels the first row as "FIRST".
-      if((ds[curr]["event"].includes("START")) && (prev) //if prev == null or undefined
+      if((ds[curr]["event"].includes("START")) && (prev) //if prev !== null or undefined
           && (!ds[curr]["destination"].includes("Sidings")
             && !ds[curr]["destination"].includes("Depot")
             && !ds[curr]["destination"].includes("Shed"))){
@@ -577,96 +580,4 @@ function start() {
 }
 //******************************************************************************
 // **************             D3 VISUALISATIONS                *****************
-//******************************************************************************
-
-
-//******************************************************************************
-/*Circle*/
-     svg.append("circle")
-             .style("stroke", "gray")
-             .style("fill", "white")
-             .attr("id","checkUselessChars")
-             .attr("r", 20)
-             .attr("cx", 600)
-             .attr("cy", 90)
-             .on("mouseover", function(){d3.select(this).style("stroke", "red");})
-             .on("mouseout", function(){d3.select(this).style("stroke", "black");})
-
-             ;
-//******************************************************************************
-//******************************************************************************
-/*Circle for destinations */
-     svg.append("circle")
-             .style("stroke", "gray")
-             .style("fill", "white")
-             .attr("id","destinations")
-             .attr("r", 20)
-             .attr("cx", 650)
-             .attr("cy", 90)
-             .on("mouseover", function(){d3.select(this).style("stroke", "red");})
-             .on("mouseout", function(){d3.select(this).style("stroke", "black");})
-             ;
-//******************************************************************************
-            //******************************************************************************
-            /*Circle for destinations */
-                 svg.append("circle")
-                         .style("stroke", "gray")
-                         .style("fill", "white")
-                         .attr("id","destinations-if")
-                         .attr("r", 20)
-                         .attr("cx", 650)
-                         .attr("cy", 140)
-                         .on("mouseover", function(){d3.select(this).style("stroke", "red");})
-                         .on("mouseout", function(){d3.select(this).style("stroke", "black");})
-                         ;
-             //******************************************************************************
-             /*Squares*/
-               svg.append("rect")
-                       .style("stroke","gray")
-                       .style("fill","white")
-                       .attr("id","destinations--remove")
-                       .attr("x",600)
-                       .attr("y",180)
-                       .attr("width",40)
-                       .attr("height",40)
-                       .on("mouseover", function(){d3.select(this).style("fill", "aliceblue");})
-                       .on("mouseout", function(){d3.select(this).style("fill", "white");})
-                     ;
-             //******************************************************************************
-             //******************************************************************************
-             /*Squares*/
-               svg.append("rect")
-                       .style("stroke","gray")
-                       .style("fill","white")
-                       .attr("id","destinations--assign")
-                       .attr("x",670)
-                       .attr("y",180)
-                       .attr("width",40)
-                       .attr("height",40)
-                       .on("mouseover", function(){d3.select(this).style("fill", "aliceblue");})
-                       .on("mouseout", function(){d3.select(this).style("fill", "white");})
-                     ;
-             //******************************************************************************
-//******************************************************************************
-/*Squares*/
-  svg.append("rect")
-          .style("stroke","gray")
-          .style("fill","white")
-          .attr("x",650)
-          .attr("y",20)
-          .attr("width",40)
-          .attr("height",40)
-          .on("mouseover", function(){d3.select(this).style("fill", "aliceblue");})
-          .on("mouseout", function(){d3.select(this).style("fill", "white");})
-        ;
-//******************************************************************************
-/*Line*/
-
-svg.append("line")
-        .attr("x1","650")
-        .attr("x2",600)
-        .attr("y1",40)
-        .attr("y2",80)
-        .attr("stroke-width","1");
-
 //******************************************************************************
