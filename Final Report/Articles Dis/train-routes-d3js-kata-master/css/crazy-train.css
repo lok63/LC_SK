@@ -1,0 +1,70 @@
+body {
+  font-family: arial;
+  font-size: 16px;
+}
+
+/* animate the route changes */
+.node, .text, .link {
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+/* states of the map components */
+.init {
+  fill-opacity: 0.7;
+  stroke-opacity: 0.7;
+}
+.selected, .start, .end {
+  fill-opacity: 1;
+  stroke-opacity: 1;
+}
+.not-selected {
+  fill-opacity: 0.3;
+  stroke-opacity: 0.3;
+}
+
+/* text/lable styles */
+.text.start, .text.end {
+  font-size: 1.3em;
+}
+.text.start {
+  fill: rgb(25, 250, 100);
+}
+.text.end{
+  fill: rgb(250, 25, 100);
+}
+
+/* node/city styles */
+.node {
+  stroke: #ddd;
+  stroke-width: 1.5px;
+}
+.node.start, .node.end {
+  stroke-width: 10px;
+}
+.node.start {
+  stroke: rgba(25, 250, 100, 0.75);
+}
+.node.end {
+  stroke: rgba(250, 25, 100, 0.75);
+}
+
+/* link/edge/track styles */
+.link {
+  stroke-width: 5px;
+}
+.link.selected {
+  stroke-width: 7px;
+}
+.link.not-selected {
+  stroke-width: 3px;
+}
+
+/* setup the "canvas" for the map to be drawn on */
+#canvas {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+}

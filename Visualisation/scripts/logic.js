@@ -10,7 +10,7 @@
 //ELSEIF 3 --> check this method with Stelios
 //ELSEIF 4 --> works
 //ELSEIF 5 --> 99% works
-//ELSEIF 5.5 --> works but algorithm is wrong according to the comment
+//ELSEIF 5.5 --> works 
 //ELSEIF 6 --> works
 //ELSEIF 7 -->
 //ELSEIF 8 --> Date()
@@ -25,7 +25,6 @@
 //Check A --> need to verify with Stelios if the algorithm is correct
 //Check B--> Works
 //Check C--> might work
-
 
 
 
@@ -110,9 +109,9 @@ function start() {
           currDate = new Date(currTimestamp);
           prevDate = new Date(prevTimestamp);
         } catch(err){
-          console.log(err);
+          //console.log(err);
         }
-        console.log(currDate);
+        //console.log(currDate);
 //---------> TODO: FIx the format so you can initialise the gapTime
          //console.log(currDate);
       }
@@ -211,7 +210,10 @@ function start() {
 
                   //console.log("Depot row was removed")
                   //console.log(ds[curr]);
-                  ds.splice(curr,1);
+                  ds.splice(prev,1);
+
+                  // original was ds.splice(curr,1);
+
                 }
 
               //*********************** elseif 4 ********************************************

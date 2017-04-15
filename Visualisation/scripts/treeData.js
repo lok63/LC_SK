@@ -88,7 +88,7 @@ var treeData =
         "parent":"Read Data"
       },
       {
-        "name":"Check B",
+        "name":"Check C",
         "parent":"Read Data"
       }
     ] //end Read data children
