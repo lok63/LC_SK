@@ -1,7 +1,3 @@
-html, body{
-  margin:0;
-  height: 100%;
-}
 
 line{
   stroke: black;
@@ -34,27 +30,80 @@ g.group0 circle {
 }
 
 /* table attributes */
-td, th {
-  padding:5px;
-  border: 1px black solid;
 
-}
-table{
+
+ table {
    border-collapse: collapse;
-   border :2px black solid;
+   border: 1px solid #ddd;
    overflow-y:scroll;
-   height:200px;
-   display:block;
-}
+   height:300px;
+   width: 100%;
+   display: block;
+   border-collapse: collapse;
+   font-size: 9px;
+ }
+
+ th, td {
+   border: 1px solid #ddd;
+
+     text-align: left;
+     padding: 8px;
+ }
+
+ tr:nth-child(even){background-color: #f2f2f2}
 
 button {
-  margin-top: 20px;
   line-height: 60px;
   font-weight: bold;
-  padding: 0 40px;
   background: salmon;
   border: none;
 }
 button:hover {
   background: lightsalmon;
+}
+
+
+html, body,
+.container {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	overflow-y: scroll;
+	background: #333;
+}
+
+.splitlayout {
+	position: relative;
+	overflow-x: hidden;
+	min-height: 100%;
+	width: 100%;
+}
+
+/* Intro sides */
+.side {
+	position: fixed;
+	top: 0;
+	z-index: 100;
+	width: 50%;
+	height: 100%;
+	text-align: center;
+	-webkit-backface-visibility: hidden;
+}
+
+
+.side-left {
+	left: 0;
+	background: #fff;
+	color: #fff;
+	outline: 1px solid #47a3da; /* avoid gap */
+}
+
+.side-right {
+	right: 0;
+	background: #fff;
+	color: black;
+	outline: 1px solid #fff; /* avoid gap */
 }

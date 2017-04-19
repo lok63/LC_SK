@@ -10,7 +10,7 @@
 //ELSEIF 3 --> check this method with Stelios
 //ELSEIF 4 --> works
 //ELSEIF 5 --> 99% works
-//ELSEIF 5.5 --> works 
+//ELSEIF 5.5 --> works
 //ELSEIF 6 --> works
 //ELSEIF 7 -->
 //ELSEIF 8 --> Date()
@@ -32,9 +32,9 @@
 
 
 //******************************************************************************
-var svg = d3.select("body").append("svg")
-    .attr("height","50%")
-    .attr("width","100%");
+// var svg = d3.select("body").append("svg")
+//     .attr("height","50%")
+//     .attr("width","100%");
 //******************************************************************************
 
 //************************Global Variables**************************************
@@ -277,7 +277,7 @@ function start() {
                       }
 
 
-              //*********************** elseif 5,5 ********************************************
+              //*********************** elseif 6 ********************************************
               // When a train starts from a "depot station" and stops to a "non-depot station"
               // removes the "non-depot station" with the STOP event and labels the next available
               // station as the first.
@@ -294,7 +294,7 @@ function start() {
                      }
                    }
 
-              //*********************** elseif 6 ********************************************
+              //*********************** elseif 6,5 ********************************************
               // excludes Dartford -> Crayford sequence from the computation.
               else if (ds[curr]["destination"].includes("Dartford") && ds[prev]["event"].includes("START")){
                     if (next !== null || next <= ds.length-1){
@@ -333,7 +333,7 @@ function start() {
                        }
 //---------> need to check this with lefteris
 
-            //*********************** elseif 8 ********************************************
+            //*********************** elseif 9 ********************************************
             // Removes the rows from the dataset when the sequence of stops corresponds to
             // Bellingham -> Orpington
             else if(ds[curr]["destination"].includes("Bellingham")){
@@ -359,7 +359,7 @@ function start() {
             // If the train is stopped for more than 4 minutes, labels the last visited stations as
             // the LAST and the FIRST of a route.
 
-            //*********************** elseif 9 ********************************************
+            //*********************** elseif 10 ********************************************
             else if(
               (ds[curr]["destination"] === "Barnehurst"
             && ds[prev]["destination"] === "Slade Green")
@@ -382,7 +382,7 @@ function start() {
               ds[next]["RouteEvent"] = "FIRST";
             }
           }
-          //*********************** elseif 10 ********************************************
+          //*********************** elseif 11 ********************************************
           else if(
             (ds[curr]["destination"]=== "London Victoria"
             && ds[prev]["destination"]=== "Hayes")
@@ -445,11 +445,11 @@ function start() {
 
           }
 
-          //*********************** elseif 11 ********************************************
+          //*********************** elseif 12 ********************************************
           // if the route is composed of only two stations, and the time between them is more than
           // 20 minutes or more than a hour, removes the rows from the dataset.
 
-          //*********************** elseif 12 ********************************************
+          //*********************** elseif 13 ********************************************
           // when the dds changes, that indicates the initiation of a new route.
           else if(prev != null && (ds[prev]["speed"] != ds[curr]["speed"])
                 && (ds[curr]["event"] === "STOP")){
@@ -465,7 +465,7 @@ function start() {
                   }
                 }
 
-          //*********************** elseif 13 ********************************************
+          //*********************** elseif 14 ********************************************
           // when the dds changes, that indicates the initiation of a new route.
           else if(prev != null && (ds[prev]["speed"] != ds[curr]["speed"])
                 && (ds[curr]["event"] === "START")){
@@ -485,7 +485,7 @@ function start() {
 
                 }
 
-          //*********************** elseif 14 ********************************************
+          //*********************** elseif 15 ********************************************
           // Removes Grove Park Down Sidings rows when the previous read station is Orpington.
           else if(ds[curr]["destination"] === "Orpington" && ds[curr]["event"].includes("START") && (next!= null)){
             if(ds[next]["destination"].includes("Grove Park Down Sidings")){
@@ -501,7 +501,7 @@ function start() {
             }
           }
 
-          //*********************** elseif 15 ********************************************
+          //*********************** elseif 16 ********************************************
           else if (prev != null){
             if(curr-3 >= 0){
               if(ds[curr-3]["destination"].includes(ds[curr]["destination"])){
