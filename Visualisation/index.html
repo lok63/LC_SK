@@ -5,9 +5,7 @@
     <title>TreeData</title>
     <link rel= "stylesheet" type="text/css" href="style.css">
 
-    <script src="https://d3js.org/d3.v3.min.js"></script>
 
-    <script type= "text/javascript" src="scripts/SimpleDateFormatJS-master/SimpleDateFormat.js"> </script>
 
 
   </head>
@@ -16,24 +14,33 @@
       <div class="container">
 
         <div class="side side-left">
-          <div id="tree"></div>
-          <div id="btn">
-          <input name="updateButton"
+          <div id="previousBtn">
+          <input name="previousButton"
                  type="button"
-                 value="Update"
-                 onclick="start()" />
+                 value="Previous"
+                  />
           </div>
+          <div id="nextBtn">
+          <input name="nextButton"
+                 type="button"
+                 value="Next"
+                  />
+          </div>
+          <div id="tree"></div>
   			</div>
 
   			<div class="side side-right">
           <div id="table1"></div>
+          <div id="table2"></div>
+
 
   			</div>
       </div><!-- /container -->
 
 
 
-
+      <script src="https://d3js.org/d3.v3.min.js"></script>
+      <script type= "text/javascript" src="scripts/SimpleDateFormatJS-master/SimpleDateFormat.js"> </script>
       <script type= "text/javascript" src="scripts/logic.js"> </script>
       <script type= "text/javascript" src="scripts/tree.js"> </script>
       <script type= "text/javascript" src="scripts/main.js"> </script>
