@@ -24,14 +24,41 @@ function BuildVerticaLTree(treeData, treeContainerDom) {
 
     /* Collapse all nodes before display them on the screen */
 
-    // function collapse(d) {
-    //   if (d.children) {
-    //     d._children = d.children;
-    //     d._children.forEach(collapse);
-    //     d.children = null;
-    //   }
-    // }
-    // root.children.forEach(collapse);
+    function collapse(d) {
+      if (d.children) {
+        d._children = d.children;
+        d._children.forEach(collapse);
+        d.children = null;
+      }
+    }
+
+    root.children.forEach(collapse);
+    //root.children.forEach(expand3)
+
+    function expand(d){
+    var children = (d.children)?d.children:d._children;
+    if (d._children) {
+        d.children = d._children;
+        d._children = null;
+    }
+  }
+
+  function expand2(d){
+    if(d._children){
+        d.children = d._children;
+        d.children.filter(function(d) { return d.name.indexOf("for loop") > -1; })
+                  .forEach(expand2);
+        d._children = null;
+    }
+  }
+  //console.log(root.children[0]._children);
+  //expand(root.children[0]);
+  function doSome(){
+  expand2(root.children[0]);}
+
+
+
+
 
     /******************************************************/
 
@@ -140,3 +167,183 @@ function BuildVerticaLTree(treeData, treeContainerDom) {
         update(d);
     }
 }
+//data for tree
+
+  var treeData =
+    {
+      "name":"Read Data",
+      "parent":null,
+      "children": [
+
+        {
+          "name":"for loop",
+          "parent":"Read Data",
+          "children": [
+
+            {
+              "name":"a",
+              "parent":"for loop",
+            },
+            {
+              "name":"b",
+              "parent":"for loop",
+              "children": [
+                {
+                  "name":"if",
+                  "parent":"b",
+                  "children": [
+                    {"name":"R","parent":"if",},{"name":"F","parent":"if",}
+                  ]
+                }
+              ]
+            },
+            {
+              "name":"1",
+              "parent":"for loop",
+              "children": [
+                {
+                  "name":"if",
+                  "parent":"b",
+                  "children": [
+                    {"name":"R","parent":"if"},
+                    {"name":"while","parent":"if","children":[{"name":"R","parent":"while"}]}
+                  ]
+                }
+              ]
+            },
+            {
+              "name":"2",
+              "parent":"for loop",
+              "children": [
+                {
+                  "name":"if",
+                  "parent":"b",
+                  "children": [
+                    {"name":"R","parent":"if"},
+                    {"name":"while","parent":"if","children":[{"name":"R","parent":"while"}]}
+                  ]
+                }
+              ]
+            },
+            {
+              "name":"3",
+              "parent":"for loop",
+              "children": [
+                {"name":"L","parent":"3"},
+                {"name":"R","parent":"3"}
+              ]
+            },
+            {
+              "name":"4",
+              "parent":"for loop",
+              "children":[
+                {"name":"R","parent":"4"},
+                {"name":"while","parent":"4","children":[{"name":"R","parent":"while"}]}
+              ]
+            },
+            {
+              "name":"5",
+              "parent":"for loop",
+              "children":[
+                {"name":"R","parent":"5"},
+                {"name":"if1","parent":"5","children":[{"name":"L","parent":"if1"}]},
+                {"name":"if2","parent":"5","children":[{"name":"F","parent":"if2"}]}
+              ]
+            },
+            {
+              "name":"6",
+              "parent":"for loop",
+              "children":[
+                {"name":"R","parent":"6"},
+                {"name":"if","parent":"6","children":[{"name":"F","parent":"if"}]},
+              ]
+            },
+            {
+              "name":"7",
+              "parent":"for loop",
+            },
+            {
+              "name":"8",
+              "parent":"for loop",
+              "children":[
+                {"name":"if1","parent":"8","children":[{"name":"E","parent":"if1"}]},
+                {"name":"if2","parent":"8","children":[{"name":"E","parent":"if2"}]},
+              ]
+            },
+            {
+              "name":"9",
+              "parent":"for loop",
+              "children":[
+                {"name":"if1","parent":"9","children":[{"name":"R","parent":"if1"}]},
+                {"name":"if2","parent":"9","children":[{"name":"F","parent":"if2"}]},
+              ]
+            },
+            {
+              "name":"10",
+              "parent":"for loop",
+              "children":[
+                {"name":"if1","parent":"10","children":[{"name":"L","parent":"if1"}]},
+                {"name":"if2","parent":"10","children":[{"name":"F","parent":"if2"}]},
+              ]
+            },
+            {
+              "name":"11",
+              "parent":"for loop",
+              "children":[
+                {"name":"if1","parent":"11","children":[{"name":"L","parent":"if1"}]},
+                {"name":"if2","parent":"11","children":[{"name":"F","parent":"if2"}]},
+                {"name":"R","parent":"11"},
+              ]
+            },
+            {
+              "name":"12",
+              "parent":"for loop",
+            },
+            {
+              "name":"13",
+              "parent":"for loop",
+              "children":[
+                {"name":"if1","parent":"13","children":[{"name":"L","parent":"if1"}]},
+                {"name":"if2","parent":"13","children":[{"name":"F","parent":"if2"}]},
+              ]
+            },
+            {
+              "name":"14",
+              "parent":"for loop",
+              "children":[
+                {"name":"if1","parent":"14","children":[{"name":"L","parent":"if1"}]},
+                {"name":"if2","parent":"14","children":[{"name":"F","parent":"if2"}]},
+              ]
+            },
+            {
+              "name":"15",
+              "parent":"for loop",
+              "children":[
+                {"name":"if","parent":"15","children":[{"name":"R","parent":"if"}]},
+                {"name":"while","parent":"15","children":[{"name":"R","parent":"while"}]},
+              ]
+            },
+            {
+              "name":"16",
+              "parent":"for loop",
+            }
+
+          ]// end of for loop children
+        },
+        {
+          "name":"A",
+          "parent":"Read Data"
+        },
+        {
+          "name":"B",
+          "parent":"Read Data"
+        },
+        {
+          "name":"C",
+          "parent":"Read Data"
+        }
+      ] //end Read data children
+    };
+
+    //build tree
+    BuildVerticaLTree(treeData, "#tree");

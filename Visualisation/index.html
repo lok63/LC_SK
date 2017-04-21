@@ -14,18 +14,21 @@
       <div class="container">
 
         <div class="side side-left">
-          <div id="previousBtn">
-          <input name="previousButton"
-                 type="button"
-                 value="Previous"
-                  />
-          </div>
-          <div id="nextBtn">
-          <input name="nextButton"
-                 type="button"
-                 value="Next"
-                  />
-          </div>
+          <div class="topBar">
+            <p id="htmlIndex"> Current i is: </p>
+            <div id="previousBtn",class="button">
+            <input name="previousButton"
+                   type="button"
+                   value="Previous"
+                    />
+            </div>
+            <div id="nextBtn",class="button">
+            <input name="nextButton"
+                   type="button"
+                   value="Next"
+                    />
+            </div>
+        </div>
           <div id="tree"></div>
   			</div>
 
@@ -40,11 +43,11 @@
 
 
       <script src="https://d3js.org/d3.v3.min.js"></script>
+      <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
       <script type= "text/javascript" src="scripts/SimpleDateFormatJS-master/SimpleDateFormat.js"> </script>
-      <script type= "text/javascript" src="scripts/logic.js"> </script>
       <script type= "text/javascript" src="scripts/tree.js"> </script>
-      <script type= "text/javascript" src="scripts/main.js"> </script>
-
+      <script type= "text/javascript" src="scripts/table.js"> </script>
+      <script type= "text/javascript" src="scripts/logic.js"> </script>
 
   </body>
 

@@ -47,6 +47,8 @@ var gapTime;
 var temp;
 var format = new simpleDateFormat();
 format.applyPattern("dd/MM/yyyy HH:mm:ss");
+ document.getElementById("htmlIndex").innerHTML;
+
 
 
 
@@ -74,6 +76,8 @@ format.applyPattern("dd/MM/yyyy HH:mm:ss");
 
       DisplayTable(data,'#table1');
       DisplayTable(data,'#table2');
+      htmlIndex.innerHTML += 0;
+
 
       //console.log(data);
       ds =  checkUselessChars(data);
@@ -84,7 +88,7 @@ format.applyPattern("dd/MM/yyyy HH:mm:ss");
 
     var len = ds.length;
     var i =0;
-
+    var globalI=0;
 
   //  for ( var i = 0;  i < ds.length; i++){
   function startLoop(i){
@@ -567,8 +571,10 @@ format.applyPattern("dd/MM/yyyy HH:mm:ss");
           }
         }
 
-
+    globalI = ds[curr]['i'];
+    console.log(globalI);
     updateTable(ds);
+
 
     //end for loop }
   } // end of startLoop(i) function
@@ -577,6 +583,9 @@ format.applyPattern("dd/MM/yyyy HH:mm:ss");
     console.log(i);
     startLoop(i);
     i++;
+
+    htmlIndex.innerHTML ="Current i is: " + i;
+
   }
 
   var nextBtn = document.getElementById("nextBtn");
@@ -632,7 +641,7 @@ format.applyPattern("dd/MM/yyyy HH:mm:ss");
     }
     return data;
   }
-
+  doSome();
 
 //******************************************************************************
 // **************             D3 VISUALISATIONS                *****************

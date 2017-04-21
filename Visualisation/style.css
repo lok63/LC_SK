@@ -58,16 +58,22 @@ table#table2{
   width: 100%;
 
 }
-
-buton {
-  line-height: 60px;
-  font-weight: bold;
-
+.topBar{
+  height: auto;
+}
+p{
+  color:black;
+}
+div{
+  color:black;
 
 }
-button:hover {
-  background: lightsalmon;
+#previousBtn, #nextBtn{
+  display:inline-block;
+  margin-left: 10px;
+
 }
+
 
 
 html, body,
