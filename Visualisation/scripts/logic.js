@@ -641,7 +641,7 @@ format.applyPattern("dd/MM/yyyy HH:mm:ss");
     }
     return data;
   }
-  doSome();
+  //doSome();
 
 //******************************************************************************
 // **************             D3 VISUALISATIONS                *****************
