@@ -1,3 +1,6 @@
+//global variables for functions
+
+
 function BuildVerticaLTree(treeData, treeContainerDom) {
     var margin = { top: 40, right: 120, bottom: 20, left: 120 };
     var width = 960 - margin.right - margin.left;
@@ -51,11 +54,13 @@ function BuildVerticaLTree(treeData, treeContainerDom) {
         d._children = null;
     }
   }
-  //console.log(root.children[0]._children);
+  //console.log(root.children[0]);
   //expand(root.children[0]);
-  function doSome(){
-  expand2(root.children[0]);}
-
+  //console.log(expandNode);
+    // if(expandNode){
+    //   expand2(root.children[0]);
+    //   update(root);
+    // }
 
 
 
@@ -167,6 +172,8 @@ function BuildVerticaLTree(treeData, treeContainerDom) {
         update(d);
     }
 }
+
+
 //data for tree
 
   var treeData =
@@ -347,3 +354,4 @@ function BuildVerticaLTree(treeData, treeContainerDom) {
 
     //build tree
     BuildVerticaLTree(treeData, "#tree");
+    //console.log(expandNode);

@@ -1,3 +1,4 @@
+
 //I have a bug. On data5.json the first row should be removed
 //i have a bag as well with FIRST and LAST. I have to many of them
 //Problem with else if 12 -- change speed with d10
@@ -31,11 +32,6 @@
 
 
 
-//******************************************************************************
-var svg = d3.select("body").append("svg")
-    .attr("height","50%")
-    .attr("width","100%");
-//******************************************************************************
 
 //************************Global Variables**************************************
 //******************************************************************************
@@ -246,8 +242,8 @@ format.applyPattern("dd/MM/yyyy HH:mm:ss");
                     || ds[curr]["destination"].includes("Depot")
                     || ds[curr]["destination"].includes("Shed")) {
 
-                      //console.log("Depot rows were removed");
-                      //console.log(ds[curr]);
+                      console.log("Depot rows were removed");
+                      console.log(ds[curr]);
                       highlightRows(ds[curr]['i'],"delete");
                       ds.splice(curr,1);
 
@@ -257,8 +253,8 @@ format.applyPattern("dd/MM/yyyy HH:mm:ss");
                             || ds[curr]["destination"].includes("Depot")
                             || ds[curr]["destination"].includes("Shed")){
 
-                              //console.log("Depot rows were removed");
-                              //console.log(ds[curr]);
+                              console.log("Depot rows were removed");
+                              console.log(ds[curr]);
                               highlightRows(ds[curr]['i'],"delete");
                               ds.splice(curr,1);
                             }
@@ -583,6 +579,7 @@ format.applyPattern("dd/MM/yyyy HH:mm:ss");
     console.log(i);
     startLoop(i);
     i++;
+    expand(root.children[0]);
 
     htmlIndex.innerHTML ="Current i is: " + i;
 
@@ -641,8 +638,29 @@ format.applyPattern("dd/MM/yyyy HH:mm:ss");
     }
     return data;
   }
-  //doSome();
+
+console.log(root.children[0]._children[5]._children[0]);
 
 //******************************************************************************
 // **************             D3 VISUALISATIONS                *****************
 //******************************************************************************
+// function expand(d){
+//   var children = (d.children)?d.children:d._children;
+//   if (d._children) {
+//     console.log(d);
+//     d.children = d._children;
+//     d._children = null;
+//   }
+// }
+// function expand2(d){
+//   if(d._children){
+//       d.children = d._children;
+//       d.children.filter(function(d) { return d.name.indexOf("for loop") > -1; })
+//                 .forEach(expand2);
+//       d._children = null;
+//   }
+// }
+// //var el = document.getElementsByTagName("g")[4];
+//
+// //console.log(treeData.children[0]);
+// expand(treeData.children[0]);
