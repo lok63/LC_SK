@@ -213,12 +213,23 @@ var svg = d3.select("#tree").append("svg")
   }
 
   function expand(d){
+    console.log(d);
+    d.activated=true;
     var children = (d.children)?d.children:d._children;
     if (d._children) {
         d.children = d._children;
         d._children = null;
       }
       update(root);
+    }
+
+    function expand2(d){
+      if(d._children){
+        d.children = d._children;
+        d.children.filter(function(d) { return d.name.indexOf("for loop") > -1; })
+                  .forEach(expand2);
+        d._children = null;
+      }
     }
 
   root.children.forEach(collapse);
@@ -249,7 +260,7 @@ function update(source) {
       .on("click", click);
 
   nodeEnter.append("circle")
-      .attr("r", 1e-6)
+      .attr("r", 9)
       .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
 
   nodeEnter.append("text")
@@ -264,9 +275,13 @@ function update(source) {
       .duration(duration)
       .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
 
+  // nodeUpdate.select("circle")
+  //     .attr("r", 4.5)
+  //     .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
   nodeUpdate.select("circle")
-      .attr("r", 4.5)
-      .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+        .attr("r", 9)
+        //.style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+        .style("stroke", function(d){return d.activated? "red":"blue"});
 
   nodeUpdate.select("text")
       .style("fill-opacity", 1);
@@ -278,7 +293,7 @@ function update(source) {
       .remove();
 
   nodeExit.select("circle")
-      .attr("r", 1e-6);
+      .attr("r", 9);
 
   nodeExit.select("text")
       .style("fill-opacity", 1e-6);
@@ -326,15 +341,6 @@ function click(d) {
     d.children = d._children;
     d._children = null;
   }
+  d.clicked = true;
   update(d);
-}
-
-
-function expand2(d){
-  if(d._children){
-    d.children = d._children;
-    d.children.filter(function(d) { return d.name.indexOf("for loop") > -1; })
-              .forEach(expand2);
-    d._children = null;
-  }
 }

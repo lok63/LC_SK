@@ -41,6 +41,7 @@ var tableBool = true;
 var prevTimestamp,currTimestamp,currDate,prevDate;
 var gapTime;
 var temp;
+var forLoopNode = root.children[0];
 var format = new simpleDateFormat();
 format.applyPattern("dd/MM/yyyy HH:mm:ss");
  document.getElementById("htmlIndex").innerHTML;
@@ -85,6 +86,8 @@ format.applyPattern("dd/MM/yyyy HH:mm:ss");
     var len = ds.length;
     var i =0;
     var globalI=0;
+
+    expand(root.children[0]);
 
   //  for ( var i = 0;  i < ds.length; i++){
   function startLoop(i){
@@ -242,6 +245,9 @@ format.applyPattern("dd/MM/yyyy HH:mm:ss");
                     || ds[curr]["destination"].includes("Depot")
                     || ds[curr]["destination"].includes("Shed")) {
 
+                      expand(forLoopNode.children[5]);
+                      expand(forLoopNode.children[5].children[0]);
+                      //expand(root.children[0]);
                       console.log("Depot rows were removed");
                       console.log(ds[curr]);
                       highlightRows(ds[curr]['i'],"delete");
@@ -253,6 +259,7 @@ format.applyPattern("dd/MM/yyyy HH:mm:ss");
                             || ds[curr]["destination"].includes("Depot")
                             || ds[curr]["destination"].includes("Shed")){
 
+                              expand(forLoopNode.children[5].children[1]);
                               console.log("Depot rows were removed");
                               console.log(ds[curr]);
                               highlightRows(ds[curr]['i'],"delete");
@@ -579,7 +586,6 @@ format.applyPattern("dd/MM/yyyy HH:mm:ss");
     console.log(i);
     startLoop(i);
     i++;
-    expand(root.children[0]);
 
     htmlIndex.innerHTML ="Current i is: " + i;
 
