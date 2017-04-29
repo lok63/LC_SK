@@ -46,7 +46,6 @@ function DisplayTable(data,tableID){
   function updateTable(data){
     /**
       We need to update the table 2 every. Because table2 already exists in our html table we need to override it
-
     */
       var element, newElement, parent;
 
@@ -101,8 +100,3 @@ function DisplayTable(data,tableID){
         console.log("problem with switch");
     }
   }
-
-
-
-
-  

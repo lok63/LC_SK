@@ -166,6 +166,7 @@ public class RoutesFinder {
 				}
 			}
 
+			//*********************** elseif 3 ********************************************
 			// When a train starts from a "non-depot station" and stops to a "depot station",
 			// assigns the label "LAST" to the "non-depot station" row that contains the STOP event
 			// and deletes the subsequent rows.

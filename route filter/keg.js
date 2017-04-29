@@ -19,7 +19,7 @@ the external JSON file and we must call all our methods that require data here
 Unfortunately we cant store data to global variables and use them outside of this scope
 */
 
-d3.json("test.json", function(error,data){
+d3.json("data5.json", function(error,data){
   if (error){console.log(console.log("Error with dataset"));}
   else{
     if(data == null || data.lenght == 0 || data.length == 1){
@@ -57,7 +57,9 @@ var searchVal2 = "Sidings";
 var searchVal3 = "Shed";
 
   for (var i=0 ; i < ds.length ; i++){
-      if ((ds[i][searchField].includes(searchVal1)) || (ds[i][searchField].includes(searchVal2)) || (ds[i][searchField].includes(searchVal3)) )  {
+      if ((ds[i][searchField].includes(searchVal1))
+        || (ds[i][searchField].includes(searchVal2))
+        || (ds[i][searchField].includes(searchVal3)) )  {
           //if this is true do nothing
       }else{
         results.push(ds[i]); // add all the values to the array that do not contain this keywords

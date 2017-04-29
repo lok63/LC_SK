@@ -56,7 +56,7 @@ function start() {
   Unfortunately we cant store data to global variables and use them outside of this scope
   */
 
-  d3.json("datasets/data5.json", function(error,data){
+  d3.json("datasets/test.json", function(error,data){
     if (error){console.log(console.log("Error with dataset"));}
     else{
       if(data == null || data.lenght == 0 || data.length == 1){
@@ -152,63 +152,67 @@ function start() {
         // If the train comes from Brixto, or Bromley South or Denmark Hill and stops to Victoria Sidings,
         // just remove the rows that contain Victoria Sidings, because it is not part of the route and it is
         // not the terminal station.
-        else if((ds[curr]["destination"].includes("Brixton")
-              || ds[curr]["destination"].includes("Bromley South")
-              || ds[curr]["destination"].includes("Denmark"))
-  					  && ds[curr]["event"].includes("START") && next!== null) {
-
-          if(ds[next]["destination"].includes("Victoria Sidings")) {
-              //console.log("ELSEIF 1 row was deleted:");
-              //console.log(ds[next]);
-              ds.splice(next,1);
-              while(ds[next]["destination"].includes("Victoria Sidings")){
-                //console.log("ELSEIF 1 row was deleted:");
-                //console.log(ds[next]);
-                ds.splice(next,1);
-              }
-  			}
-      }
+      //   else if((ds[curr]["destination"].includes("Brixton")
+      //         || ds[curr]["destination"].includes("Bromley South")
+      //         || ds[curr]["destination"].includes("Denmark"))
+  		// 			  && ds[curr]["event"].includes("START") && next!== null) {
+      //
+      //     if(ds[next]["destination"].includes("Victoria Sidings")) {
+      //         //console.log("ELSEIF 1 row was deleted:");
+      //         //console.log(ds[next]);
+      //         ds.splice(next,1);
+      //         while(ds[next]["destination"].includes("Victoria Sidings")){
+      //           //console.log("ELSEIF 1 row was deleted:");
+      //           //console.log(ds[next]);
+      //           ds.splice(next,1);
+      //         }
+  		// 	}
+      // }
 
       //*********************** elseif 2 ********************************************
       // Removes Slate Green Depot rows when the previous read station is Slade Green.
 
-      else if (ds[curr]["destination"]==="Slade Green" && ds[curr]["event"].includes("START")){
-        if(next!==null){
-          if(ds[next]["destination"].includes("Slade Green Depot")){
-            //console.log("ELSEIF 2 row was deleted:");
-            //console.log(ds[next]);
-            ds.splice(next,1);
-            while (ds[next]["destination"].includes("Slade Green Depot")){
-              //console.log("ELSEIF 2 row was deleted:");
-              //console.log(ds[next]);
-              ds.splice(next,1);
-            }
-          }
-
-        }
-      }
+      // else if (ds[curr]["destination"]==="Slade Green" && ds[curr]["event"].includes("START")){
+      //   if(next!==null){
+      //     if(ds[next]["destination"].includes("Slade Green Depot")){
+      //       //console.log("ELSEIF 2 row was deleted:");
+      //       //console.log(ds[next]);
+      //       ds.splice(next,1);
+      //       while (ds[next]["destination"].includes("Slade Green Depot")){
+      //         //console.log("ELSEIF 2 row was deleted:");
+      //         //console.log(ds[next]);
+      //         ds.splice(next,1);
+      //       }
+      //     }
+      //
+      //   }
+      // }
       //*********************** elseif 3 ********************************************
       /* When a train starts from a "non-depot station" and stops to a "depot station",
         assigns the label "LAST" to the "non-depot station" row that contains the STOP event
         and deletes the subsequent rows. */
-      else if (prev !== null && ( ds[curr]["destination"].includes("Sidings")
+      else if (prev !== null &&( ds[curr]["destination"].includes("Sidings")
               || ds[curr]["destination"].includes("Depot")
               || ds[curr]["destination"].includes("Shed")) && (ds[prev]["event"].includes("START"))
               && ((!ds[prev]["destination"].includes("Sidings")
                 && !ds[prev]["destination"].includes("Depot")
                 && !ds[prev]["destination"].includes("Shed")))){
 
-                  //console.log("Row was assigmed with LAST");
-                  //console.log(ds[prev-1]);
+                  console.log("Elseif 3 LAST on");
                   ds[prev-1]["RouteEvent"] = "LAST";
+                  console.log(ds[prev-1]);
 
-                  //console.log( "row after LAST was removed");
-                  //console.log(ds[prev]);
-                  ds.splice(prev,1);
-
-                  //console.log("Depot row was removed")
-                  //console.log(ds[curr]);
-                  ds.splice(curr,1);
+                  if(next !== null){
+                    console.log( "Elseif 3: Rows removed: ");
+                    console.log(ds[curr]);
+                    ds.splice(curr,1);
+                    console.log(ds[curr]);
+                    ds.splice(curr,1);
+                  }else{
+                    console.log( "Elseif 3: Row removed: ");
+                    console.log(ds[curr]);
+                    ds.splice(curr,1);
+                  }
                 }
 
               //*********************** elseif 4 ********************************************
@@ -527,17 +531,17 @@ function start() {
     //*********************** Check A ********************************************
     // checks if the second to last row is labeled with FIRST and removes it and also
     // removes the last row.
-    if(ds.length>3){
-      if(ds[ds.length-3]["RouteEvent"].includes("FIRST")){
-
-        console.log("Check A - row removed:");
-        console.log(ds[ds.length-3,1]);
-        ds.splice(ds.length-3,1);
-        console.log("Check A - row removed:");
-        console.log(ds[ds.length-3,1]);
-        ds.splice(ds.length-3,1);
-      }
-    }
+    // if(ds.length>3){
+    //   if(ds[ds.length-3]["RouteEvent"].includes("FIRST")){
+    //
+    //     console.log("Check A - row removed: " );
+    //     console.log(ds[ds.length-3,1]);
+    //     ds.splice(ds.length-3,1);
+    //     console.log("Check A - row removed:");
+    //     console.log(ds[ds.length-3,1]);
+    //     ds.splice(ds.length-3,1);
+    //   }
+    // }
     //*********************** Check B ********************************************
     // checks if the last row is labeled with START and removes it.
     if(ds[ds.length-1]["event"].includes("START")){

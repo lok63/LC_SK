@@ -1,4 +1,4 @@
-var flare = {
+var treeData = {
   "name":"Read Data",
   "parent":null,
   "children": [
@@ -200,7 +200,7 @@ var svg = d3.select("#tree").append("svg")
 
 
 
-  root = flare;
+  root = treeData;
   root.x0 = height / 2;
   root.y0 = 0;
 

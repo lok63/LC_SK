@@ -66,9 +66,7 @@ format.applyPattern("dd/MM/yyyy HH:mm:ss");
       var c = 0;
       data.forEach(function(e){
         e['i'] = c++;
-        if(e['RouteEvent']='LAST'){
-          e['RouteEvent']='';
-        };
+        e['RouteEvent']='';
       });
 
       DisplayTable(data,'#table1');
@@ -215,22 +213,24 @@ format.applyPattern("dd/MM/yyyy HH:mm:ss");
                 && !ds[prev]["destination"].includes("Depot")
                 && !ds[prev]["destination"].includes("Shed")))){
 
-                  //console.log("Row was assigmed with LAST");
+                  //console.log("Elseif 3 LAST on");
                   //console.log(ds[prev-1]);
                   highlightRows(ds[prev-1]['i'],"last");
                   ds[prev-1]["RouteEvent"] = "LAST";
 
-                  //console.log( "row after LAST was removed");
-                  //console.log(ds[prev]);
-                  highlightRows(ds[prev]['i'],"delete");
-                  ds.splice(prev,1);
+                  if(next !== null){
+                    //console.log(ds[curr]);
+                    highlightRows(ds[curr]['i'],"delete");
+                    ds.splice(curr,1);
+                    //console.log(ds[curr]);
+                    highlightRows(ds[curr]['i'],"delete");
+                    ds.splice(curr,1);
+                  }else{
+                    //console.log(ds[curr]);
+                    highlightRows(ds[curr]['i'],"delete");
+                    ds.splice(curr,1);
+                  }
 
-                  //console.log("Depot row was removed")
-                  //console.log(ds[curr]);
-                  highlightRows(ds[prev]['i'],"delete");
-                  ds.splice(prev,1);
-
-                  // original was ds.splice(curr,1);
                 }
 
               //*********************** elseif 4 ********************************************
