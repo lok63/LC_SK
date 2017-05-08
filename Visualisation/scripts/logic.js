@@ -35,16 +35,22 @@
 
 //************************Global Variables**************************************
 //******************************************************************************
-var circleData = new Array();
-var squareData = new Array();
 var tableBool = true;
-var prevTimestamp,currTimestamp,currDate,prevDate;
-var gapTime;
+var globalBool = false;
+var prevTimestamp,currTimestamp, currDay, prevDay;
+var gapTime, minutes, hours;
 var temp;
-var forLoopNode = root.children[0];
+var forChildren = root.children[0];
 var format = new simpleDateFormat();
 format.applyPattern("dd/MM/yyyy HH:mm:ss");
+var mySimpleDateFormatter = new simpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
  document.getElementById("htmlIndex").innerHTML;
+
+var nextBtn = document.getElementById("nextBtn");
+
+
+
 
 
 
@@ -56,7 +62,7 @@ format.applyPattern("dd/MM/yyyy HH:mm:ss");
   Unfortunately we cant store data to global variables and use them outside of this scope
   */
 
-  d3.json("data/data5.json", function(error,data){
+  d3.json("data/data6.json", function(error,data){
     if (error){console.log(console.log("Error with dataset"));}
     else{
       if(data == null || data.lenght == 0 || data.length == 1){
@@ -110,38 +116,55 @@ format.applyPattern("dd/MM/yyyy HH:mm:ss");
 
       //*********************** Calculate gapTime ********************************************
 
-      if (prev !== null){
-        //console.log(ds[curr]["timeStamp"]);
-        currTimestamp = ds[curr]["timeStamp"];
-        prevTimestamp = ds[prev]["timeStamp"];
+      if (prev != null){
 
 
+        function toDate(timeStamp){
 
-        try{
-          currDate = new Date(currTimestamp);
-          prevDate = new Date(prevTimestamp);
-        } catch(err){
-          //console.log(err);
+          var index = timeStamp.indexOf(" ");      // Gets the first index where a space occours
+          var date = timeStamp.substr(0, index);   // Gets the first part
+          var time = timeStamp.substr(index + 1);  // Gets the text part
+
+          var t = time;
+          var d = date;
+
+          const [day, month, year] = d.split("/");
+          const [hours, minutes] = t.split(":");
+
+          return new Date(year, month - 1, day, hours, minutes);
         }
-        //console.log(currDate);
-//---------> TODO: FIx the format so you can initialise the gapTime
-         //console.log(currDate);
+
+        currTimestamp = toDate(ds[curr]["timeStamp"]);
+        prevTimestamp = toDate(ds[prev]["timeStamp"]);
+
+        // calculates the difference between previous and current timestamp.
+        gapTime = (currTimestamp.getTime() - prevTimestamp.getTime());
+
+        minutes = (gapTime / (60 * 1000)) % 60;
+				hours = (gapTime/(60 * 60 * 1000)) % 24;
+
+        currDay = currTimestamp.getUTCDate();
+        prevDay = prevTimestamp.getUTCDate();
+
+
       }
 
       //*********************** Destinations ********************************************
       // If the train is starting from a "non-depot station" but it is arriving to
       // a "depot station" removes the first row; otherwise labels the first row as "FIRST".
-      if((ds[curr]["event"].includes("START")) && (prev) //if prev !== null or undefined
+      if((ds[curr]["event"].includes("START")) && (prev == null) //if prev !== null or undefined
           && (!ds[curr]["destination"].includes("Sidings")
             && !ds[curr]["destination"].includes("Depot")
             && !ds[curr]["destination"].includes("Shed"))){
 
+              console.log("Elseif a");
 
-              if(next !== null){
+              if(next != null){
                 var nextStation = ds[next]["destination"];
-                if(nextStation.includes("Sidings")
-                  ||nextStation.includes("Depot")
-                  ||nextStation.includes("Shed")){
+                if(ds[next]["destination"].includes("Sidings")
+                  ||ds[next]["destination"].includes("Depot")
+                  ||ds[next]["destination"].includes("Shed")){
+                  expand(forChildren.children[0]._children[0]);
 
                     //console.log("'destination' row was removed:");
                     //console.log(ds[curr]);
@@ -149,15 +172,12 @@ format.applyPattern("dd/MM/yyyy HH:mm:ss");
                     ds.splice(curr,1);
                   }
                   else{
-
+                    expand(forChildren.children[0]._children[1]);
                     highlightRows(ds[curr]['i'],"first");
                     ds[curr]["RouteEvent"] = "FIRST" ;
-
-                    //console.log("'destination' row assigned FIRST:");
-                    //console.log(ds[curr]);
-
                   }
               }
+              expand(forChildren.children[0]);
             }
         //*********************** elseif 1 ********************************************
         // If the train comes from Brixto, or Bromley South or Denmark Hill and stops to Victoria Sidings,
@@ -166,71 +186,76 @@ format.applyPattern("dd/MM/yyyy HH:mm:ss");
         else if((ds[curr]["destination"].includes("Brixton")
               || ds[curr]["destination"].includes("Bromley South")
               || ds[curr]["destination"].includes("Denmark"))
-  					  && ds[curr]["event"].includes("START") && next!== null) {
+  					  && ds[curr]["event"].includes("START") && next!= null) {
 
           if(ds[next]["destination"].includes("Victoria Sidings")) {
-              //console.log("ELSEIF 1 row was deleted:");
-              //console.log(ds[next]);
+              console.log("Elseif 1");
+
               highlightRows(ds[next]['i'],"delete");
               ds.splice(next,1);
               while(ds[next]["destination"].includes("Victoria Sidings")){
-                //console.log("ELSEIF 1 row was deleted:");
-                //console.log(ds[next]);
+
+                expand(forChildren.children[1]._children[0]._children[1]._children[0]);
+                expand(forChildren.children[1]._children[0]._children[0]);
                 highlightRows(ds[next]['i'],"delete");
                 ds.splice(next,1);
               }
+              expand(forChildren.children[1]._children[0]);
   			}
+        expand(forChildren.children[1]);
       }
 
       //*********************** elseif 2 ********************************************
       // Removes Slate Green Depot rows when the previous read station is Slade Green.
 
       else if (ds[curr]["destination"]==="Slade Green" && ds[curr]["event"].includes("START")){
-        if(next!==null){
+        if(next!=null){
           if(ds[next]["destination"].includes("Slade Green Depot")){
-            //console.log("ELSEIF 2 row was deleted:");
-            //console.log(ds[next]);
+            console.log("Elseif 2");
+            expand(forChildren.children[2]._children[0]._children[0]);
             highlightRows(ds[next]['i'],"delete");
             ds.splice(next,1);
             while (ds[next]["destination"].includes("Slade Green Depot")){
-              //console.log("ELSEIF 2 row was deleted:");
-              //console.log(ds[next]);
+
+              expand(forChildren.children[2]._children[0]._children[1]._children[0]);
+              expand(forChildren.children[2]._children[0]._children[1]);
+
               highlightRows(ds[next]['i'],"delete");
               ds.splice(next,1);
             }
+            expand(forChildren.children[2]._children[0]);
           }
-
+          expand(forChildren.children[2]);
         }
       }
       //*********************** elseif 3 ********************************************
       /* When a train starts from a "non-depot station" and stops to a "depot station",
         assigns the label "LAST" to the "non-depot station" row that contains the STOP event
         and deletes the subsequent rows. */
-      else if (prev !== null && ( ds[curr]["destination"].includes("Sidings")
+      else if (prev != null && ( ds[curr]["destination"].includes("Sidings")
               || ds[curr]["destination"].includes("Depot")
               || ds[curr]["destination"].includes("Shed")) && (ds[prev]["event"].includes("START"))
               && ((!ds[prev]["destination"].includes("Sidings")
                 && !ds[prev]["destination"].includes("Depot")
                 && !ds[prev]["destination"].includes("Shed")))){
 
-                  //console.log("Elseif 3 LAST on");
-                  //console.log(ds[prev-1]);
+                  console.log("Elseif 3");
+                  expand(forChildren.children[3]._children[0]);
                   highlightRows(ds[prev-1]['i'],"last");
                   ds[prev-1]["RouteEvent"] = "LAST";
 
-                  if(next !== null){
-                    //console.log(ds[curr]);
+                  if(next != null){
+                    expand(forChildren.children[3]._children[1]);
                     highlightRows(ds[curr]['i'],"delete");
                     ds.splice(curr,1);
-                    //console.log(ds[curr]);
                     highlightRows(ds[curr]['i'],"delete");
                     ds.splice(curr,1);
                   }else{
-                    //console.log(ds[curr]);
+                    expand(forChildren.children[3]._children[1]);
                     highlightRows(ds[curr]['i'],"delete");
                     ds.splice(curr,1);
                   }
-
+                  expand(forChildren.children[3]);
                 }
 
               //*********************** elseif 4 ********************************************
@@ -244,62 +269,66 @@ format.applyPattern("dd/MM/yyyy HH:mm:ss");
               else if (ds[curr]["destination"].includes("Sidings")
                     || ds[curr]["destination"].includes("Depot")
                     || ds[curr]["destination"].includes("Shed")) {
+                      console.log("Elseif 4");
 
-                      expand(forLoopNode.children[5]);
-                      expand(forLoopNode.children[5].children[0]);
-                      //expand(root.children[0]);
-                      console.log("Depot rows were removed");
-                      console.log(ds[curr]);
+
+                      //expand(forChildren.children[4]._children[0]);
+
                       highlightRows(ds[curr]['i'],"delete");
                       ds.splice(curr,1);
 
-                      //i = i-1;
+                      globalBool = true;
 
                       while(ds[curr]["destination"].includes("Sidings")
                             || ds[curr]["destination"].includes("Depot")
                             || ds[curr]["destination"].includes("Shed")){
-
-                              expand(forLoopNode.children[5].children[1]);
-                              console.log("Depot rows were removed");
-                              console.log(ds[curr]);
+                              // expand(forChildren.children[4]._children[1]._children[0]);
+                              // expand(forChildren.children[4]._children[1]);
                               highlightRows(ds[curr]['i'],"delete");
                               ds.splice(curr,1);
                             }
+
+                        //expand(forChildren.children[4]._children[0]);
+
+                      globalBool = true;
+                  //expand(forChildren.children[4]);
               }
 
               //*********************** elseif 5 ********************************************
               // When a train starts and stops into the same station, remove the corresponding rows
               // and labels the previous available row as the last and the next available station as
               // the first.
-              else if ((prev !== null)
+              else if ((prev != null)
                     && (ds[prev]["destination"] === ds[curr]["destination"])
                     && (ds[prev]["event"] === "START")
                     && (ds[curr]["event"] === "STOP")) {
+                      console.log("Elseif 5");
+
 
                       if(prev-1 >=0){
                         if(!ds[prev-1]["RouteEvent"].includes("LAST")){
-                          //console.log("ELSEIF 5 - LAST on");
-                          //console.log(ds[prev-1]);
+                          expand(forChildren.children[5]._children[1]._children[0]);
+                          expand(forChildren.children[5]._children[1]);
                           highlightRows(ds[prev-1]['i'],"last");
                           ds[prev-1]["RouteEvent"] ="LAST";
                         }
                       }
-                        //console.log("ELSEIF 5 raw removed");
-                        //console.log(ds[prev]);
+
+                        highlightRows(ds[prev]['i'],"delete");
+                        ds.splice(prev,1);
                         highlightRows(ds[prev]['i'],"delete");
                         ds.splice(prev,1);
 
-                        //console.log("ELSEIF 5 raw removed");
-                        //console.log(ds[prev]);
-                        highlightRows(ds[prev]['i'],"delete");
-                        ds.splice(prev,1);
+                        globalBool = true;
 
                         if(prev<= ds.length-1){
-                          //console.log("ELSEIF 5 FIRST on");
-                          //console.log(ds[prev]);
+                          expand(forChildren.children[5]._children[2]._children[0]);
+                          expand(forChildren.children[5]._children[2]);
                           highlightRows(ds[prev]['i'],"first");
                           ds[prev]["RouteEvent"] = "FIRST";
                         }
+                        expand(forChildren.children[5]._children[0]);
+                        expand(forChildren.children[5]);
                       }
 
 
@@ -307,25 +336,29 @@ format.applyPattern("dd/MM/yyyy HH:mm:ss");
               // When a train starts from a "depot station" and stops to a "non-depot station"
               // removes the "non-depot station" with the STOP event and labels the next available
               // station as the first.
-              else if(prev !== null && (ds[prev]["destination"].includes("Sidings")
+              else if(prev != null && (ds[prev]["destination"].includes("Sidings")
                    || ds[prev]["destination"].includes("Depot")
                    || ds[prev]["destination"].includes("Shed")) && (ds[curr]["event"].includes("STOP"))){
-                     //console.log("ELSEIF 5.5 row removed");
-                     //console.log(ds[curr]);
+                     console.log("Elseif 6");
+
                      highlightRows(ds[curr]['i'],"delete");
                      ds.splice(curr,1);
+                     globalBool = true;
+
                      if(curr<= ds.length-1){
-                       //console.log("ELSEIF 5.5 FIRST on");
-                       //console.log(ds[prev]);
+                       expand(forChildren.children[6]._children[1]._children[0]);
+                       expand(forChildren.children[6]._children[1]);
                        highlightRows(ds[curr]['i'],"first");
                        ds[curr]["RouteEvent"] = "FIRST";
                      }
+                     expand(forChildren.children[6]._children[0]);
+                     expand(forChildren.children[6]);
                    }
 
               //*********************** elseif 6,5 ********************************************
               // excludes Dartford -> Crayford sequence from the computation.
               else if (ds[curr]["destination"].includes("Dartford") && ds[prev]["event"].includes("START")){
-                    if (next !== null || next <= ds.length-1){
+                    if (next != null || next <= ds.length-1){
                       if (ds[next]["destination"].includes("Crayford")){
                         console.log("did nothing");
                       }
@@ -333,9 +366,36 @@ format.applyPattern("dd/MM/yyyy HH:mm:ss");
                   }
               //*********************** elseif 7 ********************************************
               // Sequence Slade Green, Erith
-//----------> TODO: need someone to explain me how this works
-              else if(ds[curr]["destination"]=== "Erith" && ds[prev]["destination"] === "Slade Green" ){
+              else if(ds[curr]["destination"]=== "Erith"
+                   && ds[prev]["destination"] === "Slade Green" ){
 
+                var i, temp;
+                temp = prev;
+                console.log("elseif 7")
+                for(i=0; i<3; i++){
+                  if(temp !=null && (temp -i) >= 0 ){
+                    temp =prev-i;
+                  }else{
+                    break;
+                  }
+                }
+
+                if(i==3){
+                  if(!ds[temp]["destination"].includes("Dartford") && (!ds[temp]["destination"].includes("Crayford"))){
+                    if(!ds[temp +1 ]["RouteEvent"].includes("LAST")) {
+                      expand(forChildren.children[7]._children[0]._children[1]);
+                      highlightRows(ds[temp +1]['i'],"last");
+                      ds[temp +1]["RouteEvent"] ="LAST";
+                    }
+                    if(!ds[temp +2 ]["RouteEvent"].includes("FIRST")) {
+                      expand(forChildren.children[7]._children[0]._children[0]);
+                      highlightRows(ds[temp+2]['i'],"first");
+                      ds[temp +2]["RouteEvent"] ="FIRST";
+                    }
+                    expand(forChildren.children[7]._children[0]);
+                  }
+                }
+                expand(forChildren.children[7]);
               }
               //*********************** elseif 8 ********************************************
               // Removes LAST and FIRST labels when the sequence of stops corresponds to
@@ -345,6 +405,7 @@ format.applyPattern("dd/MM/yyyy HH:mm:ss");
                     (ds[curr]["destination"].includes("Greenwich") && ds[prev]["destination"].includes("Deptford"))||
                     ((ds[curr]["destination"].includes("Lee") || ds[curr]["destination"].includes("Waterloo East"))
                        && ds[prev]["destination"].includes("Hither Green"))){
+                         console.log("Elseif 8");
 
                          if((prev-1) >0){
                            if(ds[prev-1]["RouteEvent"] === "LAST"){
@@ -368,23 +429,25 @@ format.applyPattern("dd/MM/yyyy HH:mm:ss");
             // Bellingham -> Orpington
             else if(ds[curr]["destination"].includes("Bellingham")){
               if(ds[next]["destination"].includes("Orpington") && ds[next]["event"].includes("STOP")){
-                //console.log("ELSEIF 8 - row removed:")
-                //console.log(ds[prev]);
+                console.log("Elseif 9");
+
+                expand(forChildren.children[9]._children[0]._children[0]);
+                highlightRows(ds[prev]['i'],"delete");
+                ds.splice(ds[prev],1);
                 highlightRows(ds[prev]['i'],"delete");
                 ds.splice(ds[prev],1);
 
-                //console.log("ELSEIF 8 - row removed:");
-                //console.log(ds[prev]);
-                highlightRows(ds[prev]['i'],"delete");
-                ds.splice(ds[prev],1);
+                globalBool = true;
 
                 if(ds[prev]["RouteEvent"] !== "FIRST"){
-                  //console.log("ELSEIF 8 - row was assigned as FIRST:");
-                  //console.log(ds[prev]);
+                  expand(forChildren.children[9]._children[1]._children[0]);
                   highlightRows(ds[prev]['i'],"first");
                   ds[prev]["RouteEvent"] = "FIRST";
+                  expand(forChildren.children[9]._children[1]);
                 }
               }
+              expand(forChildren.children[9]._children[0]);
+              expand(forChildren.children[9]);
             }
 //---------> my dataset don't contain any data like this, it alsw need to be checked
 
@@ -403,22 +466,25 @@ format.applyPattern("dd/MM/yyyy HH:mm:ss");
               (ds[curr]["destination"] === "Barnehurst"
             && ds[prev]["destination"] === "Crayford")
           ){
+            console.log("Elseif 10");
+
 
             if(ds[curr]["RouteEvent"] !== "LAST"){
-              //console.log("ELSEIF 9 row assigned LAST");
-              //console.log(ds[curr]);
+              expand(forChildren.children[10]._children[0]._children[0]);
+              expand(forChildren.children[10]._children[0]);
               highlightRows(ds[curr]['i'],"last");
               ds[curr]["RouteEvent"] = "LAST";
             }
             if(ds[next]["RouteEvent"] !== "FIRST"){
-              //console.log("ELSEIF 9 row assigned FIRST");
-              //console.log(ds[next]);
+              expand(forChildren.children[10]._children[1]._children[0]);
+              expand(forChildren.children[10]._children[1]);
               highlightRows(ds[next]['i'],"first");
               ds[next]["RouteEvent"] = "FIRST";
             }
+            expand(forChildren.children[10]);
           }
           //*********************** elseif 11 ********************************************
-          else if(
+          else if((prev != null) && (
             (ds[curr]["destination"]=== "London Victoria"
             && ds[prev]["destination"]=== "Hayes")
 
@@ -453,96 +519,128 @@ format.applyPattern("dd/MM/yyyy HH:mm:ss");
             && ds[prev]["destination"]=== "London Cannon Street")
 
           ||(ds[curr]["destination"]=== "Tunbridge Wells"
-            && ds[prev]["destination"]=== "Charing Cross")
+            && ds[prev]["destination"]=== "Charing Cross"))
           ){
+            console.log("Elseif 11");
 
             if((prev-1)>0){
               if(ds[prev-1]["RouteEvent"] !== "LAST"){
-                //console.log("ELSEIF 10 row assigned LAST");
-                //console.log(ds[prev-1]);
+                expand(forChildren.children[11]._children[0]._children[0]);
+                expand(forChildren.children[11]._children[0]);
                 highlightRows(ds[prev-1]['i'],"last");
                 ds[prev-1]["RouteEvent"] = "LAST";
               }
             }
             if(next != null){
               if(ds[next]["RouteEvent"] !== "FIRST"){
-                //console.log("ELSEIF 10 row assigned FIRST");
-                //console.log(ds[next]);
+                expand(forChildren.children[11]._children[1]._children[0]);
+                expand(forChildren.children[11]._children[1]);
                 highlightRows(ds[next]['i'],"first");
                 ds[next]["RouteEvent"] = "FIRST";
               }
             }
-            //console.log("ELSEIF 10 - row removed:");
-            //console.log(ds[prev]);
+            expand(forChildren.children[11]._children[0]);
+            expand(forChildren.children[11]);
+            highlightRows(ds[prev]['i'],"delete");
+            ds.splice(prev,1);
             highlightRows(ds[prev]['i'],"delete");
             ds.splice(prev,1);
 
-            //console.log("ELSEIF 10 - row removed:");
-            //console.log(ds[prev]);
-            highlightRows(ds[prev]['i'],"delete");
-            ds.splice(prev,1);
+            globalBool = true;
 
           }
 
           //*********************** elseif 12 ********************************************
           // if the route is composed of only two stations, and the time between them is more than
           // 20 minutes or more than a hour, removes the rows from the dataset.
+          else if ((prev != null)
+                && (!ds[prev]["destination"] !== ds[curr]["destination"]
+                && (!ds[prev]["event"] === "START")
+                && (!ds[curr]["event"] === "STOP")
+                && ((minutes > 20) || (hours >= 1))
+                && ((ds[curr]["destination"].includes("Bromley") && !ds[prev]["destination"].includes("Victoria"))
+                  || (ds[curr]["destination"].includes("Victoria") && !ds[prev]["destination"].includes("Bromley")))
+                && (ds[curr]["destination"].includes("Victoria") && !ds[prev]["destination"].includes("Rochester"))
+                && (ds[curr]["destination"].includes("Victoria") && !ds[prev]["destination"].includes("Mary"))  ))
+                {
+
+                  expand(forChildren.children[12]._children[0]);
+                  expand(forChildren.children[12]);
+                  console.log("Elseif 12");
+                  highlightRows(ds[prev]['i'],"delete");
+                  ds.splice(prev,1);
+                  highlightRows(ds[prev]['i'],"delete");
+                  ds.splice(prev,1);
+
+                  globalBool = true;
+          }
 
           //*********************** elseif 13 ********************************************
           // when the dds changes, that indicates the initiation of a new route.
-          else if(prev != null && (ds[prev]["speed"] != ds[curr]["speed"])
+          else if((prev != null) && (ds[prev]["d10"] != ds[curr]["d10"])
                 && (ds[curr]["event"] === "STOP")){
+                  console.log("Elseif 13");
+
                   if(!ds[curr]["destination"].includes("London")){
-                    //console.log("ELSEIF 12 row assigned LAST");
-                    //console.log(ds[curr]);
+                    expand(forChildren.children[13]._children[0]._children[0]);
                     highlightRows(ds[curr]['i'],"last");
                     ds[curr]["RouteEvent"] = "LAST";
-                    if(next !=null){
 
-                      //console.log("ELSEIF 12 row assigned FIRST");
-                      //console.log(ds[next]);
+                    if(next != null){
+                      expand(forChildren.children[13]._children[1]._children[0]);
+                      expand(forChildren.children[13]._children[1]);
                       highlightRows(ds[next]['i'],"first");
                       ds[next]["RouteEvent"] = "FIRST";
                     }
+                    expand(forChildren.children[13]._children[0]);
                   }
+                  expand(forChildren.children[13]);
                 }
 
           //*********************** elseif 14 ********************************************
           // when the dds changes, that indicates the initiation of a new route.
-          else if(prev != null && (ds[prev]["speed"] != ds[curr]["speed"])
+          else if(prev != null && (ds[prev]["d10"] != ds[curr]["d10"])
                 && (ds[curr]["event"] === "START")){
 
-                  //console.log("ELSEIF 13 row assigned LAST");
-                  //console.log(ds[prev]);
+                  console.log("Elseif 14");
+
                   if(ds[prev]["RouteEvent"] !== "LAST"){
+                    expand(forChildren.children[14]._children[0]._children[0]);
+                    expand(forChildren.children[14]._children[0]);
                     highlightRows(ds[prev]['i'],"last");
                     ds[prev]["RouteEvent"] = "LAST";
                   }
                   if(next !=null){
                     if(ds[next]["RouteEvent"] !== "FIRST"){
-                      //console.log("ELSEIF 13 row assigned FIRST");
-                      //console.log(ds[curr]);
+                      expand(forChildren.children[14]._children[1]._children[0]);
+                      expand(forChildren.children[14]._children[1]);
                       highlightRows(ds[curr]['i'],"first");
                       ds[curr]["RouteEvent"] = "FIRST";
                     }
                   }
+                  expand(forChildren.children[14]);
                 }
 
           //*********************** elseif 15 ********************************************
           // Removes Grove Park Down Sidings rows when the previous read station is Orpington.
           else if(ds[curr]["destination"] === "Orpington" && ds[curr]["event"].includes("START") && (next!= null)){
             if(ds[next]["destination"].includes("Grove Park Down Sidings")){
-              //console.log("ELSEIF 14 - row removed:");
-              //console.log(ds[next]);
+              console.log("Elseif 15");
               highlightRows(ds[next]['i'],"delete");
               ds.splice(next,1);
+              globalBool = true;
 
               while(ds[next]["destination"].includes("Grove Park Down Sidings")){
-                //console.log("ELSEIF 14 - row removed:");
-                //console.log(ds[next]);
+                expand(forChildren.children[15]._children[1]._children[0]);
+                expand(forChildren.children[15]._children[1]);
                 highlightRows(ds[next]['i'],"delete");
                 ds.splice(next,1);
               }
+              globalBool = true;
+              expand(forChildren.children[15]._children[0]._children[0]);
+              expand(forChildren.children[15]._children[0]);
+              expand(forChildren.children[15]);
+
             }
           }
 
@@ -550,83 +648,103 @@ format.applyPattern("dd/MM/yyyy HH:mm:ss");
           else if (prev != null){
             if(curr-3 >= 0){
               if(ds[curr-3]["destination"].includes(ds[curr]["destination"])){
+                console.log("Elseif 16");
+
                 if(ds[curr-3]["RouteEvent"].includes("FIRST")){
-
-                 //console.log("ELSEIF 15 - row removed:");
-                 //console.log(ds[curr-3]);
-                 highlightRows(ds[curr-3]['i'],"remove");
+                expand(forChildren.children[16]._children[0]._children[0]);
+                expand(forChildren.children[16]._children[0]);
+                 highlightRows(ds[curr-3]['i'],"delete");
                  ds.splice(curr-3,1);
-
-                 //console.log("ELSEIF 15 - row removed:");
-                 //console.log(ds[curr-3]);
-                 highlightRows(ds[curr-3]['i'],"remove");
+                 highlightRows(ds[curr-3]['i'],"delete");
                  ds.splice(curr-3,1);
+                 globalBool = true;
+
               }
               else{
+                console.log("Elseif 16");
                 if(!ds[curr-2]["RouteEvent"].includes("LAST") && !ds[curr-2]["RouteEvent"].includes("FIRST")){
-                  //console.log("ELSEIF 15 row assigned FIRST");
-                  //console.log(ds[curr-2]);
+                  expand(forChildren.children[16]._children[1]._children[0]);
+                  expand(forChildren.children[16]._children[1]);
                   highlightRows(ds[curr-2]['i'],"first");
                   ds[curr-2]["RouteEvent"] = "FIRST";
                 }
               }
+              expand(forChildren.children[16]);
             }
           }
         }
 
-    globalI = ds[curr]['i'];
-    console.log(globalI);
+      globalI = ds[curr]['i'];
+
+
     updateTable(ds);
-
-
+    //root.children.forEach(collapse);
     //end for loop }
   } // end of startLoop(i) function
 
   function callNext(){
-    console.log(i);
-    startLoop(i);
-    i++;
+    if(i == ds.length-1){ startChecks();}
+    else if(i > ds.length-1){return;}
+
+      //startLoop(i);
+      console.log(forChildren.children[4]._children[1]);
+      expand(forChildren.children[4]._children[1]._children[0]);
+      expand(forChildren.children[4]._children[1]);
+      console.log(forChildren.children[4]._children[1]);
+
 
     htmlIndex.innerHTML ="Current i is: " + i;
+    htmlGlobalIndex.innerHTML = "Global i is: "+ globalI;
+    dsLen.innerHTML = "length is " + (ds.length-1);
+
+    i++;
+    if(globalBool){
+      i = i-1;
+      globalBool = false;
+    }
 
   }
 
-  var nextBtn = document.getElementById("nextBtn");
-  nextBtn.addEventListener('click', callNext);
+nextBtn.addEventListener('click', callNext);
 
+function startChecks(){
     //*********************** Check A ********************************************
     // checks if the second to last row is labeled with FIRST and removes it and also
     // removes the last row.
     if(ds.length>3){
       if(ds[ds.length-3]["RouteEvent"].includes("FIRST")){
 
-        //console.log("Check A - row removed:");
-        //console.log(ds[ds.length-3,1]);
+        expand(root.children[1]._children[0]);
+        highlightRows(ds[ds.length-3]['i'],"delete");
         ds.splice(ds.length-3,1);
-        console.log("Check A - row removed:");
-        console.log(ds[ds.length-3,1]);
         ds.splice(ds.length-3,1);
       }
+      expand(root.children[1]);
     }
     //*********************** Check B ********************************************
     // checks if the last row is labeled with START and removes it.
     if(ds[ds.length-1]["event"].includes("START")){
-      //console.log("Check B row was removed:");
-      //console.log(ds[ds.length-1]);
+      expand(root.children[2]._children[0]);
+      expand(root.children[2]);
+      highlightRows(ds[ds.length-1]['i'],"delete");
       ds.splice(ds.length-1,1);
     }
 
     //*********************** Check C ********************************************
     // checks if the last row is labeled as LAST; if not, assigns the LAST label.
     if(!ds[ds.length-1]["RouteEvent"].includes("LAST")){
-      //console.log("Check C row assigned LAST");
-      //console.log(ds[ds.length-1]);
+      expand(root.children[3]._children[0]);
+      expand(root.children[3]);
+      highlightRows(ds[ds.length-1]['i'],"last");
       ds[ds.length-1]["RouteEvent"] = "LAST";
     }
 
 
 
+
+    console.log(ds);
     // fianl results console.log(ds);
+  }
   });
 
 
@@ -645,7 +763,6 @@ format.applyPattern("dd/MM/yyyy HH:mm:ss");
     return data;
   }
 
-console.log(root.children[0]._children[5]._children[0]);
 
 //******************************************************************************
 // **************             D3 VISUALISATIONS                *****************

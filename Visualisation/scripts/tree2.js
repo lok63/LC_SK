@@ -11,19 +11,9 @@ var treeData = {
         {
           "name":"a",
           "parent":"for loop",
-          "children":null
-        },
-        {
-          "name":"b",
-          "parent":"for loop",
           "children": [
-            {
-              "name":"if",
-              "parent":"b",
-              "children": [
-                {"name":"R","parent":"if"},{"name":"F","parent":"if"}
-              ]
-            }
+              {"name":"R","parent":"if"},
+              {"name":"F","parent":"if"}
           ]
         },
         {
@@ -90,7 +80,14 @@ var treeData = {
         {
           "name":"7",
           "parent":"for loop",
-          "children":null
+          "children":[
+            {"name":"if",
+            "parent":"7",
+            "children":[
+              {"name":"F","parent":"if"},
+              {"name":"L","parent":"if"}
+                      ]}
+                    ]
         },
         {
           "name":"8",
@@ -127,7 +124,10 @@ var treeData = {
         },
         {
           "name":"12",
-          "parent":"for loop"
+          "parent":"for loop",
+          "children": [
+            {"name":"R","parent":"12"}
+          ]
         },
         {
           "name":"13",
@@ -155,22 +155,35 @@ var treeData = {
         },
         {
           "name":"16",
-          "parent":"for loop"
+          "parent":"for loop",
+          "children":[
+            {"name":"if1","parent":"13","children":[{"name":"R","parent":"if1"}]},
+            {"name":"if2","parent":"13","children":[{"name":"F","parent":"if2"}]}
+          ]
         }
 
       ]
     },
     {
       "name":"A",
-      "parent":"Read Data"
+      "parent":"Read Data",
+      "children":[
+        {"name":"R","parent":"A"}
+      ]
     },
     {
       "name":"B",
-      "parent":"Read Data"
+      "parent":"Read Data",
+      "children":[
+        {"name":"R","parent":"B"}
+      ]
     },
     {
       "name":"C",
-      "parent":"Read Data"
+      "parent":"Read Data",
+      "children":[
+        {"name":"L","parent":"C"}
+      ]
     }
   ]
 };
@@ -211,20 +224,27 @@ var svg = d3.select("#tree").append("svg")
       d.children = null;
     }
   }
-
+  // function expand(d){
+  // if (d._children) {
+  //     d.children = d._children;
+  //     d.children.forEach(expand);
+  //     d._children = null;
+  // }
   function expand(d){
-    console.log(d);
-    d.activated=true;
-    var children = (d.children)?d.children:d._children;
-    if (d._children) {
-        d.children = d._children;
-        d._children = null;
-      }
-      update(root);
+        d.activated=true;
+        var children = (d.children)?d.children:d._children;
+        if (d._children) {
+            d.children = d._children;
+            d._children = null;
+          }
+          update(root);
     }
 
+
+    root.children.forEach(collapse);
+
     function expand2(d){
-      if(d._children){
+      if(d._children != null){
         d.children = d._children;
         d.children.filter(function(d) { return d.name.indexOf("for loop") > -1; })
                   .forEach(expand2);
@@ -232,7 +252,7 @@ var svg = d3.select("#tree").append("svg")
       }
     }
 
-  root.children.forEach(collapse);
+
 
 
   update(root);
