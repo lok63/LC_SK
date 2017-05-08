@@ -271,9 +271,6 @@ var nextBtn = document.getElementById("nextBtn");
                     || ds[curr]["destination"].includes("Shed")) {
                       console.log("Elseif 4");
 
-
-                      //expand(forChildren.children[4]._children[0]);
-
                       highlightRows(ds[curr]['i'],"delete");
                       ds.splice(curr,1);
 
@@ -282,16 +279,22 @@ var nextBtn = document.getElementById("nextBtn");
                       while(ds[curr]["destination"].includes("Sidings")
                             || ds[curr]["destination"].includes("Depot")
                             || ds[curr]["destination"].includes("Shed")){
-                              // expand(forChildren.children[4]._children[1]._children[0]);
-                              // expand(forChildren.children[4]._children[1]);
+                              //expand(forChildren.children[4]._children[1]);
                               highlightRows(ds[curr]['i'],"delete");
                               ds.splice(curr,1);
                             }
+                            try{
+                              expand(forChildren.children[4]._children[1]._children[0]);
+                              expand(forChildren.children[4]._children[1]);
+                              expand(forChildren.children[4]._children[0]);
+                              expand(forChildren.children[4]);
+                            }
+                            catch(e){
+                              console.log(e);
+                            }
 
-                        //expand(forChildren.children[4]._children[0]);
 
                       globalBool = true;
-                  //expand(forChildren.children[4]);
               }
 
               //*********************** elseif 5 ********************************************
@@ -605,20 +608,27 @@ var nextBtn = document.getElementById("nextBtn");
                   console.log("Elseif 14");
 
                   if(ds[prev]["RouteEvent"] !== "LAST"){
-                    expand(forChildren.children[14]._children[0]._children[0]);
-                    expand(forChildren.children[14]._children[0]);
+
                     highlightRows(ds[prev]['i'],"last");
                     ds[prev]["RouteEvent"] = "LAST";
                   }
                   if(next !=null){
                     if(ds[next]["RouteEvent"] !== "FIRST"){
-                      expand(forChildren.children[14]._children[1]._children[0]);
-                      expand(forChildren.children[14]._children[1]);
+
                       highlightRows(ds[curr]['i'],"first");
                       ds[curr]["RouteEvent"] = "FIRST";
                     }
                   }
-                  expand(forChildren.children[14]);
+                  try{
+                    expand(forChildren.children[14]._children[1]._children[0]);
+                    expand(forChildren.children[14]._children[1]);
+                    expand(forChildren.children[14]._children[0]._children[0]);
+                    expand(forChildren.children[14]._children[0]);
+                    expand(forChildren.children[14]);
+                  }catch(e){
+                    console.log(e);
+                  }
+
                 }
 
           //*********************** elseif 15 ********************************************
@@ -686,23 +696,22 @@ var nextBtn = document.getElementById("nextBtn");
     if(i == ds.length-1){ startChecks();}
     else if(i > ds.length-1){return;}
 
-      //startLoop(i);
-      console.log(forChildren.children[4]._children[1]);
-      expand(forChildren.children[4]._children[1]._children[0]);
-      expand(forChildren.children[4]._children[1]);
-      console.log(forChildren.children[4]._children[1]);
+      startLoop(i);
+
 
 
     htmlIndex.innerHTML ="Current i is: " + i;
     htmlGlobalIndex.innerHTML = "Global i is: "+ globalI;
     dsLen.innerHTML = "length is " + (ds.length-1);
 
-    i++;
-    if(globalBool){
-      i = i-1;
-      globalBool = false;
-    }
-
+    if(!globalBool){
+      i++;}
+    // if(globalBool){
+    //   i = i-1;
+    //   globalBool = false;
+    // }
+    globalBool = false;
+    console.log(i);
   }
 
 nextBtn.addEventListener('click', callNext);
