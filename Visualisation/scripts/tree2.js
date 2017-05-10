@@ -243,7 +243,7 @@ var svg = d3.select("#tree").append("svg")
             d._children= d.children;
             d.children = null;
          }
-        
+
           update(root);
     }
 

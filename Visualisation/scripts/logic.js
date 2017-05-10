@@ -276,13 +276,13 @@ var nextBtn = document.getElementById("nextBtn");
 
                       globalBool = true;
 
-                      while(ds[curr]["destination"].includes("Sidings")
-                            || ds[curr]["destination"].includes("Depot")
-                            || ds[curr]["destination"].includes("Shed")){
-                              //expand(forChildren.children[4]._children[1]);
-                              highlightRows(ds[curr]['i'],"delete");
-                              ds.splice(curr,1);
-                            }
+                      // while(ds[curr]["destination"].includes("Sidings")
+                      //       || ds[curr]["destination"].includes("Depot")
+                      //       || ds[curr]["destination"].includes("Shed")){
+                      //         //expand(forChildren.children[4]._children[1]);
+                      //         highlightRows(ds[curr]['i'],"delete");
+                      //         ds.splice(curr,1);
+                      //       }
                             try{
                               expand(forChildren.children[4]._children[1]._children[0]);
                               expand(forChildren.children[4]._children[1]);
@@ -695,7 +695,7 @@ var nextBtn = document.getElementById("nextBtn");
   function callNext(){
     if(i == ds.length-1){ startChecks();}
     else if(i > ds.length-1){return;}
-
+    console.log(ds[i]);
       startLoop(i);
 
 
