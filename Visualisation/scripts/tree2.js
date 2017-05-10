@@ -233,17 +233,18 @@ var svg = d3.select("#tree").append("svg")
   function expand(d){
         d.activated=true;
         var children = (d.children)?d.children:d._children;
-        var _children = (d._children)?d._children:d.children;
-
         if (d._children) {
             d.children = d._children;
             d._children = null;
           }
+<<<<<<< HEAD
         else if(d.children){
             d._children= d.children;
             d.children = null;
          }
 
+=======
+>>>>>>> parent of ba9d3d2... s
           update(root);
     }
 

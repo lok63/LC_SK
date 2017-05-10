@@ -271,11 +271,15 @@ var nextBtn = document.getElementById("nextBtn");
                     || ds[curr]["destination"].includes("Shed")) {
                       console.log("Elseif 4");
 
+
+                      //expand(forChildren.children[4]._children[0]);
+
                       highlightRows(ds[curr]['i'],"delete");
                       ds.splice(curr,1);
 
                       globalBool = true;
 
+<<<<<<< HEAD
                       // while(ds[curr]["destination"].includes("Sidings")
                       //       || ds[curr]["destination"].includes("Depot")
                       //       || ds[curr]["destination"].includes("Shed")){
@@ -291,10 +295,21 @@ var nextBtn = document.getElementById("nextBtn");
                             }
                             catch(e){
                               console.log(e);
+=======
+                      while(ds[curr]["destination"].includes("Sidings")
+                            || ds[curr]["destination"].includes("Depot")
+                            || ds[curr]["destination"].includes("Shed")){
+                              // expand(forChildren.children[4]._children[1]._children[0]);
+                              // expand(forChildren.children[4]._children[1]);
+                              highlightRows(ds[curr]['i'],"delete");
+                              ds.splice(curr,1);
+>>>>>>> parent of ba9d3d2... s
                             }
 
+                        //expand(forChildren.children[4]._children[0]);
 
                       globalBool = true;
+                  //expand(forChildren.children[4]);
               }
 
               //*********************** elseif 5 ********************************************
@@ -608,27 +623,20 @@ var nextBtn = document.getElementById("nextBtn");
                   console.log("Elseif 14");
 
                   if(ds[prev]["RouteEvent"] !== "LAST"){
-
+                    expand(forChildren.children[14]._children[0]._children[0]);
+                    expand(forChildren.children[14]._children[0]);
                     highlightRows(ds[prev]['i'],"last");
                     ds[prev]["RouteEvent"] = "LAST";
                   }
                   if(next !=null){
                     if(ds[next]["RouteEvent"] !== "FIRST"){
-
+                      expand(forChildren.children[14]._children[1]._children[0]);
+                      expand(forChildren.children[14]._children[1]);
                       highlightRows(ds[curr]['i'],"first");
                       ds[curr]["RouteEvent"] = "FIRST";
                     }
                   }
-                  try{
-                    expand(forChildren.children[14]._children[1]._children[0]);
-                    expand(forChildren.children[14]._children[1]);
-                    expand(forChildren.children[14]._children[0]._children[0]);
-                    expand(forChildren.children[14]._children[0]);
-                    expand(forChildren.children[14]);
-                  }catch(e){
-                    console.log(e);
-                  }
-
+                  expand(forChildren.children[14]);
                 }
 
           //*********************** elseif 15 ********************************************
@@ -695,23 +703,30 @@ var nextBtn = document.getElementById("nextBtn");
   function callNext(){
     if(i == ds.length-1){ startChecks();}
     else if(i > ds.length-1){return;}
+<<<<<<< HEAD
     console.log(ds[i]);
       startLoop(i);
 
+=======
+
+      //startLoop(i);
+      console.log(forChildren.children[4]._children[1]);
+      expand(forChildren.children[4]._children[1]._children[0]);
+      expand(forChildren.children[4]._children[1]);
+      console.log(forChildren.children[4]._children[1]);
+>>>>>>> parent of ba9d3d2... s
 
 
     htmlIndex.innerHTML ="Current i is: " + i;
     htmlGlobalIndex.innerHTML = "Global i is: "+ globalI;
     dsLen.innerHTML = "length is " + (ds.length-1);
 
-    if(!globalBool){
-      i++;}
-    // if(globalBool){
-    //   i = i-1;
-    //   globalBool = false;
-    // }
-    globalBool = false;
-    console.log(i);
+    i++;
+    if(globalBool){
+      i = i-1;
+      globalBool = false;
+    }
+
   }
 
 nextBtn.addEventListener('click', callNext);
