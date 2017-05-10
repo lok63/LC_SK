@@ -238,11 +238,14 @@ var svg = d3.select("#tree").append("svg")
             d._children = null;
           }
 <<<<<<< HEAD
+<<<<<<< HEAD
         else if(d.children){
             d._children= d.children;
             d.children = null;
          }
 
+=======
+>>>>>>> parent of ba9d3d2... s
 =======
 >>>>>>> parent of ba9d3d2... s
           update(root);

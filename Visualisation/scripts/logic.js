@@ -280,6 +280,7 @@ var nextBtn = document.getElementById("nextBtn");
                       globalBool = true;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
                       // while(ds[curr]["destination"].includes("Sidings")
                       //       || ds[curr]["destination"].includes("Depot")
                       //       || ds[curr]["destination"].includes("Shed")){
@@ -296,6 +297,8 @@ var nextBtn = document.getElementById("nextBtn");
                             catch(e){
                               console.log(e);
 =======
+=======
+>>>>>>> parent of ba9d3d2... s
                       while(ds[curr]["destination"].includes("Sidings")
                             || ds[curr]["destination"].includes("Depot")
                             || ds[curr]["destination"].includes("Shed")){
@@ -303,6 +306,9 @@ var nextBtn = document.getElementById("nextBtn");
                               // expand(forChildren.children[4]._children[1]);
                               highlightRows(ds[curr]['i'],"delete");
                               ds.splice(curr,1);
+<<<<<<< HEAD
+>>>>>>> parent of ba9d3d2... s
+=======
 >>>>>>> parent of ba9d3d2... s
                             }
 
@@ -704,16 +710,22 @@ var nextBtn = document.getElementById("nextBtn");
     if(i == ds.length-1){ startChecks();}
     else if(i > ds.length-1){return;}
 <<<<<<< HEAD
+<<<<<<< HEAD
     console.log(ds[i]);
       startLoop(i);
 
 =======
+=======
+>>>>>>> parent of ba9d3d2... s
 
       //startLoop(i);
       console.log(forChildren.children[4]._children[1]);
       expand(forChildren.children[4]._children[1]._children[0]);
       expand(forChildren.children[4]._children[1]);
       console.log(forChildren.children[4]._children[1]);
+<<<<<<< HEAD
+>>>>>>> parent of ba9d3d2... s
+=======
 >>>>>>> parent of ba9d3d2... s
 
 
